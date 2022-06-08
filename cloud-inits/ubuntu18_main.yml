@@ -1,0 +1,33 @@
+#cloud-config
+
+packages:
+ - ntp
+ - qemu-guest-agent
+ 
+groups:
+  - docker
+
+users:
+  - name: ubuntu
+    groups: docker
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys: ${ssh_pub_key}
+    shell: /bin/bash
+
+disk_setup:
+  /dev/vda:
+    table_type: gpt
+    layout: True
+    overwrite: True
+
+fs_setup:
+  - device: /dev/vda
+    filesystem: ext4
+    partition: 1
+
+mounts:
+  - [ /dev/vda1, ${mount}, auto, "defaults,noexec" ]
+  
+runcmd:
+  - curl https://releases.rancher.com/install-docker/20.10.sh | sh
+  - ${rancher_join_command} %{ for role in roles ~} --${role} %{ endfor ~}
