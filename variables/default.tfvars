@@ -33,7 +33,7 @@ nodes = {
       {
         mount = "/mnt/etcd"
         storage = "SSD"
-        cache = "unsafe,discard"
+        cache = "unsafe"
         size = 200
       }
     ]
