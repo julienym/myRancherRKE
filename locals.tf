@@ -3,14 +3,24 @@ locals {
   proxmox_secrets = merge(var.proxmox_secrets_default, var.proxmox_secrets)
   bastion = merge(var.bastion_default, var.bastion)
   masters = merge(var.nodes_default, var.nodes.masters)
-  # workers = merge(var.nodes_default, var.nodes.workers)
+  workers = merge(var.nodes_default, var.nodes.workers)
   rke_name = "rke${terraform.workspace == "default" ? "" : "-${terraform.workspace}"}"
   master_snippet = templatefile("cloud-inits/${var.proxmox.cloud_init_file}",
     {
+      hostname = "${local.rke_name}-master-XXX"
       ssh_pub_key = file(local.proxmox.ssh_pub_key)
       mount = var.nodes.masters.data_disk[0].mount
-      rancher_join_command = rancher2_cluster.this.cluster_registration_token[0].node_command
+      rancher_join_command = rancher2_cluster_v2.this.cluster_registration_token[0].node_command
       roles = var.nodes.masters.roles
+    }
+  )
+  worker_snippet = templatefile("cloud-inits/${var.proxmox.cloud_init_file}",
+    {
+      hostname = "${local.rke_name}-worker-XXX"
+      ssh_pub_key = file(local.proxmox.ssh_pub_key)
+      mount = var.nodes.workers.data_disk[0].mount
+      rancher_join_command = rancher2_cluster_v2.this.cluster_registration_token[0].node_command
+      roles = var.nodes.workers.roles
     }
   )
 }

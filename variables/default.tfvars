@@ -1,6 +1,6 @@
 
 rke = {
-  kubernetes_version = "v1.21.12-rancher1-1"
+  kubernetes_version = "v1.24.4+rke2r1"
 }
 
 proxmox = {
@@ -8,7 +8,7 @@ proxmox = {
   domain_name = "vm"
   insecure = false
   node_name = "z600"
-  debug = false
+  debug = true
   use_bastion = true
 }
 
@@ -27,14 +27,38 @@ nodes = {
     ]
     roles = [
       "controlplane",
-      "etcd"
+      "etcd",
     ]
     data_disk = [
       {
-        mount = "/mnt/etcd"
+        mount = "/var/lib/rancher/rke2/server/db/etcd"
         storage = "SSD"
         cache = "unsafe"
         size = 200
+      }
+    ]
+  }
+  workers = {
+    count = 1
+    cores = 4
+    ram_mb = 8192
+    storage = "SSD"
+    clone = "ubuntu18-template"
+    bridge = "vmbr0"
+    macaddr = [
+      "02:A6:71:E6:02:CE",
+      "02:4E:C2:88:ED:B6",
+      "02:EF:15:A0:23:DC"
+    ]
+    roles = [
+      "worker"
+    ]
+    data_disk = [
+      {
+        mount = "/mnt/longhorn-ssd"
+        storage = "SSD"
+        cache = "unsafe"
+        size = 400
       }
     ]
   }

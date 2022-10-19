@@ -10,6 +10,11 @@ module "cert-manager" {
   }
 }
 
+#### Public ACME
+
+
+
+#### Local CA
 resource "kubectl_manifest" "ca_certificate" {
   depends_on = [
     module.cert-manager
