@@ -7,14 +7,14 @@ locals {
   cloud_init = {
     master = templatefile("cloud-inits/${var.proxmox.cloud_init_template_file}",
       {
-        ssh_pub_key = file(local.proxmox.ssh_pub_key)
-        mount       = var.nodes.masters.data_disk[0].mount
+        ssh_pub_key  = file(local.proxmox.ssh_pub_key)
+        mount        = var.nodes.masters.data_disk[0].mount
         root_ca_cert = indent(3, file("${path.root}/${var.root_ca_cert_path}"))
     })
     worker = templatefile("cloud-inits/${var.proxmox.cloud_init_template_file}",
       {
-        ssh_pub_key = file(local.proxmox.ssh_pub_key)
-        mount       = var.nodes.workers.data_disk[0].mount
+        ssh_pub_key  = file(local.proxmox.ssh_pub_key)
+        mount        = var.nodes.workers.data_disk[0].mount
         root_ca_cert = indent(3, file("${path.root}/${var.root_ca_cert_path}"))
     })
   }

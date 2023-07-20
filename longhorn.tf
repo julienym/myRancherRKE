@@ -4,11 +4,10 @@ module "longhorn" {
   ]
   source = "git::https://github.com/julienym/myTerraformModules.git//helm?ref=main"
 
-  name       = "longhorn"
-  repository = "https://charts.longhorn.io"
-  namespace  = "longhorn-system"
-  chart      = "longhorn"
-  # chart = "../longhorn-charts/charts/longhorn"
+  name          = "longhorn"
+  repository    = "https://charts.longhorn.io"
+  namespace     = "longhorn-system"
+  chart         = "longhorn"
   chart_version = "1.4.2" #https://github.com/longhorn/charts/releases
   values = {              #Default values here: https://github.com/longhorn/charts/blob/master/charts/longhorn/values.yaml
     "defaultSettings.defaultDataPath"          = "/mnt/longhorn-ssd"
