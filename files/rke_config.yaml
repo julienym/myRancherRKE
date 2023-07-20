@@ -1,0 +1,21 @@
+%{ if FLANNEL_IFACE != "" }
+rke2-canal:
+  flannel:
+    iface: ${FLANNEL_IFACE}
+%{ endif }
+rke2-ingress-nginx:
+  controller:
+    hostNetwork: true
+    hostPort:
+      enabled: true
+%{ if AZURE_INGRESS }
+    nodeSelector:
+      Cloud: Azure
+    tolerations:
+      - key: "Cloud"
+        operator: "Equal"
+        value: "Azure"
+        effect: "NoSchedule"
+%{ endif }
+    config:
+      allow-snippet-annotations: "true"  

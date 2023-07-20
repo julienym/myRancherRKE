@@ -1,0 +1,13 @@
+#cloud-config
+
+runcmd:
+# Temp. for RKE2 on Ubuntu 22.04
+  - systemctl stop apparmor.service
+  - systemctl disable apparmor.service
+
+%{ if root_ca_cert != "" }
+ca_certs:
+  trusted: 
+  - |
+   ${root_ca_cert}
+%{ endif }

@@ -1,3 +1,3 @@
-# output "temp" {
-#     value = nonsensitive(rancher2_cluster_v2.this.cluster_registration_token[0].node_command)
-# }
+output "azure_ip" {
+  value = try(azurerm_public_ip.this[0].ip_address, "No IP found, is azure enabled?")
+}
