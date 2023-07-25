@@ -89,7 +89,7 @@ intermediate_ca_key_path  = "files/encrypted/tools_ca.key"
 rancher = {
   url   = "https://rancher.mgt"
   fqdn  = "rancher.mgt"
-  wg_ip = "100.125.2.2"
+  # wg_ip = "100.125.2.2"
 }
 
-azure_enabled = true
+# azure_enabled = true
